@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wei Zhou — Product Strategist for New-form AI Hardware</title>
+<link rel="stylesheet" href="assets/base.css" />
+<style>
+  /* Direction C — Soft Glass.
+     Bright pastel opal, frosted glass everywhere, dark-slate type.
+     Airy, premium, light. */
+  :root {
+    --bg: #f1ecf7;
+    --ink: #1a1d2b;
+    --ink-soft: #565d72;
+    --accent: #7b6cf0;
+    --veil: linear-gradient(180deg, rgba(248,245,252,.5), rgba(244,240,250,.66));
+    --veil-blur: 20px;
+    --glass: rgba(255,255,255,0.52);
+    --glass-border: rgba(255,255,255,0.9);
+    --glass-shadow: 0 26px 64px -30px rgba(90,70,150,.4);
+    --line: rgba(60,50,90,0.12);
+  }
+  .nav { backdrop-filter: blur(14px); background: linear-gradient(180deg, rgba(248,245,252,.66), rgba(248,245,252,0)); }
+  .card .num { color: var(--accent); }
+  .feat::after { background: linear-gradient(180deg, rgba(255,255,255,.28), rgba(255,255,255,.86) 72%) !important; }
+  .feat:hover, .glass { box-shadow: var(--glass-shadow); }
+
+  .hero {
+    min-height: calc(100svh - 78px);
+    display: flex; align-items: center;
+    padding: 28px 0 56px;
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1.02fr 0.98fr; gap: clamp(28px, 4vw, 56px);
+    align-items: center; width: 100%;
+  }
+  .hero-eyebrow { margin-bottom: 20px; }
+  .hero-h { font-size: clamp(38px, 4.9vw, 78px); line-height: 0.96; margin-bottom: 26px; }
+  .hero-lede { margin-bottom: 36px; }
+  .btn { white-space: nowrap; }
+
+  /* hero visual — surf panel, height tracks the viewport so the hero fits one screen */
+  .hero-visual {
+    position: relative; border-radius: 8px; overflow: hidden;
+    height: min(74vh, 640px); width: 100%;
+    border: 1px solid rgba(255,255,255,0.7);
+    box-shadow: 0 40px 90px -40px rgba(20,40,80,.5);
+  }
+  .hero-visual canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hero-visual .grid-overlay {
+    position: absolute; inset: 0; pointer-events: none; z-index: 1;
+    background-image: linear-gradient(rgba(255,255,255,.16) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,.16) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(120% 90% at 50% 40%, #000 55%, transparent 100%);
+  }
+
+  /* embedded surfer — wave / person / board on three independently-drifting layers.
+     Three aligned copies of the same image; each masked to its object and given
+     its own motion. The full wave layer underneath fills any gap, so separation
+     reads as parallax depth, not torn edges. */
+  .hero-visual .surf-wrap {
+    position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    -webkit-mask-image: radial-gradient(128% 110% at 50% 37%, #000 38%, rgba(0,0,0,.5) 66%, rgba(0,0,0,0) 90%);
+            mask-image: radial-gradient(128% 110% at 50% 37%, #000 38%, rgba(0,0,0,.5) 66%, rgba(0,0,0,0) 90%);
+  }
+  .hero-visual .surf-layer {
+    position: absolute; inset: -6%;
+    background: url("assets/surfer.png") center 40% / cover no-repeat;
+    filter: saturate(.7) brightness(1.07) contrast(.94) hue-rotate(-12deg);
+    will-change: transform;
+  }
+  /* wave: the whole scene, slow swell underneath everything */
+  .hero-visual .layer-wave {
+    transform-origin: 50% 50%;
+    animation: surfWave 9s ease-in-out infinite;
+  }
+  /* board: lower-left diagonal — tilts and lifts on a faster beat */
+  .hero-visual .layer-board {
+    transform-origin: 40% 82%;
+    -webkit-mask-image: radial-gradient(42% 30% at 40% 80%, #000 52%, transparent 100%);
+            mask-image: radial-gradient(42% 30% at 40% 80%, #000 52%, transparent 100%);
+    animation: surfBoard 5s ease-in-out infinite;
+  }
+  /* person: the rider — sways from the board contact, own phase */
+  .hero-visual .layer-person {
+    transform-origin: 52% 70%;
+    -webkit-mask-image: radial-gradient(44% 42% at 57% 45%, #000 60%, transparent 100%);
+            mask-image: radial-gradient(44% 42% at 57% 45%, #000 60%, transparent 100%);
+    animation: surfPerson 6s ease-in-out infinite;
+  }
+  .hero-visual .surf-grade {
+    position: absolute; inset: 0; mix-blend-mode: soft-light;
+    background: linear-gradient(150deg, rgba(123,108,240,.78) 0%, rgba(118,176,236,.4) 50%, rgba(150,150,235,.3) 100%);
+  }
+  .hero-visual .surf-grade.tint {
+    mix-blend-mode: color; opacity: .32;
+    background: linear-gradient(135deg, #7b6cf0 0%, #6fa6e6 60%, #8f86ec 100%);
+  }
+  .hero-visual .surf-grade.b {
+    mix-blend-mode: screen;
+    background: radial-gradient(70% 60% at 62% 30%, rgba(150,170,255,.22), transparent 70%);
+  }
+  /* surfer note — Apple-style: a soft bottom scrim with clean type sitting
+     directly on the image. No chrome, no pill — the gradient does the work. */
+  .hero-visual .surf-cap {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; pointer-events: none;
+    padding: 64px 26px 22px;
+    background: linear-gradient(0deg, rgba(10,14,28,.58) 0%, rgba(10,14,28,.30) 38%, rgba(10,14,28,0) 100%);
+  }
+  .hero-visual .surf-cap .ek {
+    display: block; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .26em;
+    text-transform: uppercase; color: rgba(255,255,255,.72); font-weight: 700; margin-bottom: 5px;
+  }
+  .hero-visual .surf-cap .ti {
+    display: block; font-family: var(--font-display); font-weight: 600; letter-spacing: -0.01em;
+    font-size: clamp(19px, 1.9vw, 25px); line-height: 1.05; color: #fff;
+    text-shadow: 0 1px 18px rgba(0,0,0,.28);
+  }
+  @keyframes surfWave {
+    0%,100% { transform: translate3d(0,0,0) scale(1) rotate(0deg); }
+    50%     { transform: translate3d(-1%,1.3%,0) scale(1.032) rotate(-1deg); }
+  }
+  @keyframes surfBoard {
+    0%,100% { transform: rotate(0deg) translate3d(0,0,0); }
+    30%     { transform: rotate(3.4deg) translate3d(1.4%,-1.7%,0); }
+    65%     { transform: rotate(-2deg) translate3d(-.9%,1%,0); }
+  }
+  @keyframes surfPerson {
+    0%,100% { transform: translate3d(0,0,0) rotate(0deg); }
+    35%     { transform: translate3d(.6%,-2.6%,0) rotate(1.4deg); }
+    70%     { transform: translate3d(-.5%,1.2%,0) rotate(-1.1deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-visual .surf-layer { animation: none !important; }
+  }
+
+  .section-pad { padding: clamp(64px, 9vw, 110px) 0; }
+  [id] { scroll-margin-top: 88px; }
+  .pos-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px; align-items: end; }
+  .pos-body { font-size: 19px; line-height: 1.62; color: var(--ink-soft); }
+
+  .cards3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+  .card {
+    border-radius: 6px; padding: 30px 28px 34px; position: relative; overflow: hidden;
+  }
+  .card .num { font-family: var(--font-mono); color: var(--accent); font-weight: 700; font-size: 13px; letter-spacing: .1em; }
+  .card h3 { font-size: 22px; font-weight: 800; letter-spacing: -0.02em; margin: 40px 0 12px; }
+  .card p { font-size: 16px; line-height: 1.55; color: var(--ink-soft); margin: 0; }
+
+  /* nav feature cards */
+  .feat3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 22px; }
+  .feat {
+    position: relative; border-radius: 6px; overflow: hidden; min-height: 320px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 30px 28px; text-decoration: none; color: var(--ink);
+    border: 1px solid var(--glass-border);
+    transition: transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s;
+  }
+  .feat canvas { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+  .feat::after {
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(180deg, rgba(255,255,255,.2), rgba(255,255,255,.82) 72%);
+  }
+  .feat:hover { transform: translateY(-6px); box-shadow: 0 40px 80px -36px rgba(20,40,80,.55); }
+  .feat .ftag { font-family: var(--font-mono); font-size: 12px; letter-spacing: .12em; color: var(--ink-soft); font-weight: 700; }
+  .feat h3 { font-size: 40px; font-weight: 900; letter-spacing: -0.035em; margin: 8px 0 10px; line-height: .95; }
+  .feat p { font-size: 15px; line-height: 1.5; color: var(--ink-soft); margin: 0; max-width: 30ch; }
+
+  .contact-grid { display: grid; grid-template-columns: 1.25fr 0.75fr; gap: clamp(32px, 4vw, 64px); align-items: center; }
+  .contact-grid .h-sec { font-size: clamp(34px, 4.4vw, 66px); }
+  .contact-list { display: flex; flex-direction: column; gap: 28px; }
+  .ci { display: flex; flex-direction: column; gap: 7px; }
+  .ci-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+  .ci a, .ci .ci-val { font-size: clamp(18px, 1.5vw, 23px); font-weight: 700; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; line-height: 1.1; }
+  .ci a:hover { color: var(--accent); }
+
+  @media (max-width: 880px) {
+    .hero { min-height: 0; padding: 8px 0 48px; }
+    .hero-grid, .pos-grid, .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+    .cards3, .feat3 { grid-template-columns: 1fr; }
+    .hero-h { font-size: clamp(40px, 11vw, 72px); }
+    .hero-visual { height: min(64vh, 480px); }
+  }
+
+  /* ---------------------------------------------------------------
+     Apple-style motion — silky, scroll-linked fade in + fade out.
+     Content rises & fades as it enters, holds while centered, then
+     eases back out as it leaves. Tied to scroll position, fully
+     reversible. Long, soft deceleration curves throughout.
+  ---------------------------------------------------------------- */
+
+  /* Refined easing for the JS-reveal fallback (browsers without
+     scroll-driven animation support). */
+  [data-reveal] {
+    transform: translateY(30px);
+    transition: opacity 1.15s cubic-bezier(.16,1,.3,1),
+                transform 1.15s cubic-bezier(.16,1,.3,1);
+  }
+  [data-reveal][data-delay="1"] { transition-delay: .09s; }
+  [data-reveal][data-delay="2"] { transition-delay: .18s; }
+  [data-reveal][data-delay="3"] { transition-delay: .27s; }
+  [data-split] .word-i { transition: transform 1.2s cubic-bezier(.16,1,.3,1); }
+
+  @keyframes appleScroll {
+    0%   { opacity: 0; transform: translateY(38px) scale(.985); }
+    17%  { opacity: 1; transform: translateY(0) scale(1); }
+    80%  { opacity: 1; transform: translateY(0) scale(1); }
+    100% { opacity: 0; transform: translateY(-26px) scale(.99); }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      /* hand control to the scroll timeline; neutralise the static hide */
+      [data-reveal] {
+        opacity: 1; transform: none; transition: none;
+        animation: appleScroll linear both;
+        animation-timeline: view();
+        animation-range: cover 0% cover 100%;
+      }
+      /* gentle stagger: later items finish entering a touch later */
+      [data-reveal][data-delay="1"] { animation-range: cover 1.5% cover 100%; }
+      [data-reveal][data-delay="2"] { animation-range: cover 3%   cover 100%; }
+      [data-reveal][data-delay="3"] { animation-range: cover 4.5% cover 100%; }
+      /* headlines: same calm fade-up as everything else. The word-mask
+         slide is kept only for the no-scroll-timeline fallback. */
+      [data-split] {
+        animation: appleScroll linear both;
+        animation-timeline: view();
+        animation-range: cover 0% cover 100%;
+      }
+      [data-split] .word { overflow: visible; }
+      [data-split] .word-i { transform: none !important; transition: none !important; }
+    }
+  }
+
+  /* never trap content for print/PDF or reduced motion */
+  @media print {
+    [data-reveal], [data-split], [data-split] .word-i {
+      opacity: 1 !important; transform: none !important; animation: none !important;
+    }
+  }
+</style>
+</head>
+<body>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="tg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#c9b8f5"/>
+        <stop offset="0.5" stop-color="#a9c8f0"/>
+        <stop offset="1" stop-color="#f0c6e6"/>
+      </linearGradient>
+    </defs>
+    <rect width="100" height="100" rx="20" fill="url(#tg)"/>
+    <path d="M30 64 q10 -16 20 0 q10 16 20 0" fill="none" stroke="#1a1d2b" stroke-width="5" stroke-linecap="round"/>
+    <path d="M30 50 q10 -16 20 0 q10 16 20 0" fill="none" stroke="#1a1d2b" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+  </svg>
+</template>
+<canvas class="bg-fluid" id="bg"></canvas>
+<div class="bg-veil"></div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand">Wei Zhou</div>
+    <nav class="nav-links">
+      <a href="#cv">CV</a><a href="#resume">Resume</a><a href="#case">Product Case</a><a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow hero-eyebrow" data-reveal>AI-Native Devices / Multimodal Interaction / Global Product Lead</div>
+        <h1 class="display h-hero hero-h" data-split data-gate>The Product Strategist for New-form AI Hardware.</h1>
+        <p class="lede hero-lede" data-reveal data-delay="1">I translate sensing, local intelligence, and human context into product directions teams can build — and global markets can understand.</p>
+        <div class="btn-row" data-reveal data-delay="2">
+          <a class="btn btn-primary" href="product-case.html">Product Case</a>
+          <a class="btn btn-ghost" href="#positioning">Experience</a>
+        </div>
+      </div>
+      <div class="hero-visual" data-reveal data-delay="1" data-gloss>
+        <canvas id="herofx"></canvas>
+        <div class="grid-overlay"></div>
+        <div class="surf-wrap">
+          <div class="surf-layer layer-wave"></div>
+          <div class="surf-layer layer-board"></div>
+          <div class="surf-layer layer-person"></div>
+          <div class="surf-grade tint"></div>
+          <div class="surf-grade"></div>
+          <div class="surf-grade b"></div>
+        </div>
+        <span class="surf-cap"><span class="ek">Off the clock</span><span class="ti">Surfing in Bali</span></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- POSITIONING -->
+  <section class="section-pad" id="positioning">
+    <div class="pos-grid">
+      <div>
+        <div class="eyebrow" data-reveal style="margin-bottom:26px;">Positioning</div>
+        <h2 class="display h-sec" data-split>AI devices are becoming contextual interfaces.</h2>
+      </div>
+      <p class="pos-body" data-reveal data-delay="1">My edge is connecting hardware constraints, AI workflows, user behavior, and go-to-market language into a single product direction. The next opportunity isn't only more compute — it's a more natural sensing layer between people, space, and work.</p>
+    </div>
+  </section>
+
+  <!-- CARDS -->
+  <section style="padding-bottom:40px;">
+    <div class="cards3">
+      <div class="card glass" data-reveal data-gloss><span class="num">01</span><h3>Product Direction</h3><p>Define where emerging AI hardware should move, and why that direction matters commercially.</p></div>
+      <div class="card glass" data-reveal data-delay="1" data-gloss><span class="num">02</span><h3>Contextual Interaction</h3><p>Frame sensing, multimodal input, and local intelligence as one user-facing product system.</p></div>
+      <div class="card glass" data-reveal data-delay="2" data-gloss><span class="num">03</span><h3>Global Narrative</h3><p>Turn complex technical capability into stories customers, sales, and teams can carry.</p></div>
+    </div>
+  </section>
+
+  <!-- FEATURE NAV -->
+  <section class="section-pad" id="work" style="padding-top:60px;">
+    <div class="feat3">
+      <a class="feat" id="cv" href="cv.html" data-reveal data-gloss>
+        <canvas class="feat-fx" data-pal="cv"></canvas>
+        <span class="ftag">01 / Profile</span><h3>CV</h3><p>Editorial one-page profile for senior-facing conversations.</p>
+      </a>
+      <a class="feat" id="resume" href="cv.html" data-reveal data-delay="1" data-gloss>
+        <canvas class="feat-fx" data-pal="resume"></canvas>
+        <span class="ftag">02 / Experience</span><h3>Resume</h3><p>Career storyline, selected impact, and personal experience.</p>
+      </a>
+      <a class="feat" id="case" href="product-case.html" data-reveal data-delay="2" data-gloss>
+        <canvas class="feat-fx" data-pal="case"></canvas>
+        <span class="ftag">03 / Case</span><h3>Product<br>Case</h3><p>ThinkCentre X Tower / Sensor Hub as a 0-to-1 AI hardware case.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section-pad" id="contact">
+    <div class="contact-grid">
+      <div>
+        <div class="eyebrow" data-reveal style="margin-bottom:26px;">Contact</div>
+        <h2 class="display h-sec" data-split>Open to AI device, multimodal hardware, and global product leadership roles.</h2>
+      </div>
+      <div class="contact-list" data-reveal data-delay="1">
+        <div class="ci"><span class="ci-label">Email</span><a href="mailto:joyzhou123@gmail.com">joyzhou123@gmail.com</a></div>
+        <div class="ci"><span class="ci-label">Phone</span><span class="ci-val">+86 18611601820</span></div>
+        <div class="ci"><span class="ci-label">LinkedIn</span><a href="https://www.linkedin.com/in/joyzhou123/" target="_blank" rel="noopener">in/joyzhou123 &rarr;</a></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>Wei Zhou</span><span>AI-native product systems</span>
+  </footer>
+</main>
+
+<script src="assets/holo-fluid.js"></script>
+<script src="assets/reveal.js"></script>
+<script>
+  // bright pastel opal behind frosted glass — high lightness, soft sat
+  const pastelPalette = [[0.78,0.74,0.84],[0.22,0.24,0.20],[1.0,1.0,1.0],[0.30,0.55,0.85]];
+  new HoloFluid(document.getElementById('bg'), {
+    palette: pastelPalette, speed: 0.32, warp: 0.95, bright: 1.12, sat: 0.85,
+    contrast: 0.92, wave: 0.28, scale: 0.5,
+  });
+
+  // hero visual — brighter pastel crest, runs the surf pop-up → cut-back intro
+  const hero = new HoloFluid(document.getElementById('herofx'), {
+    palette: [[0.72,0.70,0.82],[0.30,0.30,0.28],[1.0,1.0,1.0],[0.25,0.5,0.82]],
+    speed: 0.55, warp: 1.25, bright: 1.04, sat: 1.08, contrast: 0.95,
+    wave: 1.0, scale: 0.7,
+  });
+  Reveal.surfIntro(hero, () => {
+    document.querySelector('.hero-h').classList.add('in');
+  });
+
+  // feature card fluids — soft pastel tints per card
+  const featPalettes = {
+    cv:     [[0.78,0.74,0.84],[0.24,0.24,0.22],[1,1,1],[0.30,0.55,0.85]],
+    resume: [[0.76,0.76,0.82],[0.22,0.22,0.24],[1,1,1],[0.40,0.55,0.75]],
+    case:   [[0.74,0.76,0.86],[0.26,0.24,0.22],[1,1,1],[0.20,0.52,0.86]],
+  };
+  document.querySelectorAll('.feat-fx').forEach((c, i) => {
+    new HoloFluid(c, {
+      palette: featPalettes[c.dataset.pal], speed: 0.3 + i*0.05, warp: 1.0,
+      bright: 1.12, sat: 0.9, contrast: 0.92, wave: 0.6, scale: 0.45, mouse: false,
+      timeOffset: i * 30,
+    });
+  });
+</script>
+</body>
+</html>

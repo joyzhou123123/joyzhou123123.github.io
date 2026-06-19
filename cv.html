@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wei Zhou — CV</title>
+<link rel="stylesheet" href="assets/base.css" />
+<style>
+  :root {
+    --bg: #f1ecf7;
+    --ink: #1a1d2b;
+    --ink-soft: #565d72;
+    --ink-faint: #8a8fa6;
+    --accent: #7b6cf0;
+    --line: rgba(60,50,90,0.13);
+    --paper: rgba(255,255,255,0.62);
+    --paper-border: rgba(255,255,255,0.9);
+  }
+  body { background: var(--bg); color: var(--ink); }
+
+  /* soft pastel field — static gradient, print-safe (no WebGL) */
+  .cv-field {
+    position: fixed; inset: 0; z-index: -2; pointer-events: none;
+    background:
+      radial-gradient(46% 40% at 12% 22%, rgba(123,108,240,.30), transparent 70%),
+      radial-gradient(42% 40% at 90% 14%, rgba(111,166,230,.24), transparent 72%),
+      radial-gradient(54% 50% at 78% 92%, rgba(214,160,231,.22), transparent 74%),
+      var(--bg);
+  }
+
+  .page { max-width: 1120px; margin: 0 auto; padding: clamp(26px, 3.6vw, 48px) clamp(20px, 4vw, 48px) 64px; }
+
+  /* top utility row */
+  .cv-top { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: clamp(22px, 3vw, 38px); }
+  .cv-top a.back { font-weight: 700; font-size: 14px; color: var(--ink); text-decoration: none; opacity: .8; }
+  .cv-top a.back:hover { opacity: 1; color: var(--accent); }
+  .cv-top .kicker { font-family: var(--font-mono); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); font-weight: 700; }
+
+  /* ---------- identity header ---------- */
+  .cv-head {
+    display: grid; grid-template-columns: 1fr auto; gap: clamp(24px, 4vw, 56px);
+    align-items: end; padding-bottom: clamp(22px, 3vw, 32px);
+    border-bottom: 1px solid var(--line); margin-bottom: clamp(28px, 3.4vw, 40px);
+  }
+  .name {
+    font-family: var(--font-display); font-weight: 900; letter-spacing: -0.04em;
+    line-height: 0.9; font-size: clamp(52px, 8vw, 96px); margin: 0;
+  }
+  .role {
+    font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em;
+    font-size: clamp(16px, 1.7vw, 21px); color: var(--ink-soft); margin: 16px 0 0; max-width: 30ch; line-height: 1.25;
+  }
+  .role .slash { color: var(--accent); font-weight: 800; padding: 0 2px; }
+  .head-contact { display: grid; grid-template-columns: auto auto; gap: 14px 28px; }
+  .ci { display: flex; flex-direction: column; gap: 4px; }
+  .ci .lab { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-faint); font-weight: 700; }
+  .ci a, .ci span { font-size: 14px; font-weight: 600; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+  .ci a:hover { color: var(--accent); }
+
+  /* ---------- body: sidebar + main inside one glass panel ---------- */
+  .cv-body {
+    background: var(--paper); border: 1px solid var(--paper-border);
+    backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%);
+    box-shadow: 0 30px 70px -38px rgba(90,70,150,.4);
+    border-radius: 12px; overflow: hidden;
+    display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr);
+  }
+  .side { padding: clamp(28px, 3vw, 40px); display: flex; flex-direction: column; gap: clamp(26px, 3vw, 36px); }
+  .main { padding: clamp(28px, 3vw, 40px); border-left: 1px solid var(--line); display: flex; flex-direction: column; gap: clamp(26px, 3vw, 36px); }
+
+  .sec-label {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin: 0 0 16px; display: flex; align-items: center; gap: 10px;
+  }
+  .sec-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+  /* summary */
+  .summary p { font-size: 15px; line-height: 1.62; color: var(--ink-soft); margin: 0 0 13px; }
+  .summary p:last-child { margin-bottom: 0; }
+  .summary b { color: var(--ink); font-weight: 700; }
+
+  /* experience */
+  .jobs { display: flex; flex-direction: column; gap: 22px; }
+  .job { display: grid; grid-template-columns: 1fr auto; gap: 2px 18px; }
+  .job-title { font-size: 16.5px; font-weight: 800; letter-spacing: -0.015em; color: var(--ink); }
+  .job-date { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: .03em; color: var(--accent); font-weight: 700; white-space: nowrap; text-align: right; }
+  .job-org { grid-column: 1 / -1; font-size: 13px; font-weight: 700; color: var(--ink-soft); margin: 2px 0 8px; }
+  .job ul { grid-column: 1 / -1; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .job li { position: relative; padding-left: 17px; font-size: 13.5px; line-height: 1.5; color: var(--ink-soft); }
+  .job li::before { content: ""; position: absolute; left: 1px; top: 7px; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+
+  /* sidebar lists */
+  .skills { display: flex; flex-direction: column; gap: 8px; }
+  .skills span { font-size: 13.5px; line-height: 1.4; color: var(--ink); padding-left: 16px; position: relative; }
+  .skills span::before { content: ""; position: absolute; left: 0; top: 7px; width: 5px; height: 5px; background: var(--accent); border-radius: 1.5px; }
+
+  .langs { display: flex; flex-direction: column; gap: 10px; }
+  .lang { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; border-bottom: 1px dotted var(--line); padding-bottom: 9px; }
+  .lang:last-child { border-bottom: 0; padding-bottom: 0; }
+  .lang b { font-size: 14px; font-weight: 800; color: var(--ink); }
+  .lang span { font-size: 12.5px; color: var(--ink-soft); font-weight: 600; }
+
+  .edu-title { font-size: 14.5px; font-weight: 800; letter-spacing: -0.01em; color: var(--ink); line-height: 1.3; }
+  .edu-org { font-size: 13px; font-weight: 600; color: var(--ink-soft); margin-top: 5px; }
+
+  /* signal note */
+  .signal { margin-top: auto; }
+  .signal h3 { font-family: var(--font-display); font-weight: 900; letter-spacing: -0.03em; line-height: 0.94; font-size: 22px; margin: 0 0 14px; }
+  .signal svg { display: block; width: 100%; max-width: 230px; height: auto; }
+  .signal .cap { font-size: 12.5px; line-height: 1.42; color: var(--ink-soft); font-weight: 600; margin: 14px 0 0; max-width: 30ch; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 900px) {
+    .cv-head { grid-template-columns: 1fr; align-items: start; }
+    .head-contact { grid-template-columns: repeat(4, auto); justify-content: start; }
+    .cv-body { grid-template-columns: 1fr; }
+    .main { border-left: 0; border-top: 1px solid var(--line); }
+    .signal { margin-top: 0; }
+  }
+  @media (max-width: 560px) {
+    .head-contact { grid-template-columns: auto auto; }
+    .name { font-size: clamp(46px, 15vw, 64px); }
+  }
+
+  /* ---------- print ---------- */
+  @media print {
+    @page { margin: 12mm; }
+    body { background: #fff; }
+    .cv-field, .cv-top { display: none !important; }
+    .page { padding: 0; max-width: none; }
+    .cv-body { background: #fff; box-shadow: none; border: 1px solid #e3e0ee; backdrop-filter: none; -webkit-backdrop-filter: none; }
+    .job, .signal { break-inside: avoid; }
+    .name { font-size: 64px; }
+  }
+</style>
+</head>
+<body>
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c9b8f5"/><stop offset="1" stop-color="#f0c6e6"/>
+    </linearGradient></defs>
+    <rect width="100" height="100" rx="20" fill="url(#tg)"/>
+    <text x="50" y="44" text-anchor="middle" font-family="Archivo, sans-serif" font-size="30" font-weight="900" fill="#1a1d2b">WZ</text>
+    <circle cx="38" cy="64" r="3" fill="#1a1d2b"/><circle cx="62" cy="64" r="3" fill="#1a1d2b"/>
+    <path d="M30 72 q20 -14 40 0" fill="none" stroke="#7b6cf0" stroke-width="3" stroke-linecap="round"/>
+  </svg>
+</template>
+
+<div class="cv-field"></div>
+
+<div class="page">
+  <div class="cv-top">
+    <a class="back" href="index.html">&larr; Portfolio</a>
+    <span class="kicker">Curriculum Vitae</span>
+  </div>
+
+  <!-- IDENTITY HEADER -->
+  <header class="cv-head">
+    <div>
+      <h1 class="name">Wei Zhou</h1>
+      <p class="role">AI-native Devices <span class="slash">/</span> Multimodal Interaction <span class="slash">/</span> Global Product Lead</p>
+    </div>
+    <div class="head-contact">
+      <div class="ci"><span class="lab">Phone</span><span>+86 18611601820</span></div>
+      <div class="ci"><span class="lab">Email</span><a href="mailto:joyzhou123@gmail.com">joyzhou123@gmail.com</a></div>
+      <div class="ci"><span class="lab">LinkedIn</span><a href="https://www.linkedin.com/in/joyzhou123/" target="_blank" rel="noopener">in/joyzhou123</a></div>
+      <div class="ci"><span class="lab">Portfolio</span><a href="index.html">weizhou.portfolio</a></div>
+    </div>
+  </header>
+
+  <!-- BODY -->
+  <div class="cv-body">
+    <!-- SIDEBAR -->
+    <aside class="side">
+      <section>
+        <h2 class="sec-label">Skills</h2>
+        <div class="skills">
+          <span>AI device product strategy</span>
+          <span>Multimodal interaction hardware</span>
+          <span>AIPC / intelligent hardware planning</span>
+          <span>Product portfolio strategy</span>
+          <span>Platform product abstraction</span>
+          <span>0-to-1 product definition</span>
+          <span>Global GTM storytelling</span>
+          <span>Cross-functional leadership</span>
+          <span>Hardware / software / UX alignment</span>
+          <span>Enterprise solution packaging</span>
+          <span>Localization &amp; launch delivery</span>
+          <span>Sales enablement</span>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="sec-label">Languages</h2>
+        <div class="langs">
+          <div class="lang"><b>Chinese</b><span>Native</span></div>
+          <div class="lang"><b>English</b><span>Working proficiency</span></div>
+          <div class="lang"><b>Korean</b><span>Working proficiency</span></div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="sec-label">Education</h2>
+        <div class="edu-title">B.Eng. in Information Technology Management Engineering</div>
+        <div class="edu-org">Hanyang University, South Korea</div>
+      </section>
+
+      <div class="signal">
+        <h3>Signal · Context · Interaction</h3>
+        <svg viewBox="0 0 340 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="22" cy="44" r="4" fill="#1a1d2b"/>
+          <circle cx="58" cy="92" r="4" fill="#1a1d2b"/>
+          <circle cx="196" cy="40" r="4" fill="#1a1d2b"/>
+          <path d="M70 26 Q104 70 70 110" stroke="#1a1d2b" stroke-width="2" stroke-linecap="round"/>
+          <path d="M118 30 Q150 70 118 110" stroke="#7b6cf0" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="158" cy="74" r="26" stroke="#1a1d2b" stroke-width="2"/>
+          <circle cx="214" cy="66" r="40" stroke="#7b6cf0" stroke-width="2" stroke-dasharray="5 7"/>
+        </svg>
+        <p class="cap">AI device as a sensing layer for people, space, and workflow.</p>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <section class="summary">
+        <h2 class="sec-label">Profile</h2>
+        <p>Product lead with <b>15+ years</b> of complex product commercialization experience across intelligent hardware, AI platforms, global product launches, and enterprise customer scenarios.</p>
+        <p>Currently focused on AI-native devices, ambient interaction, and multimodal hardware interfaces. Recent work at Lenovo includes global desktop / AIPC product planning and 0-to-1 definition for <b>ThinkCentre X Tower / Sensor Hub</b>.</p>
+      </section>
+
+      <section>
+        <h2 class="sec-label">Experience</h2>
+        <div class="jobs">
+          <div class="job">
+            <span class="job-title">Hardware Product Manager</span>
+            <span class="job-date">Jul 2021 — Present</span>
+            <div class="job-org">Lenovo, Beijing</div>
+            <ul>
+              <li>Own global desktop / AIPC product planning, portfolio strategy, lifecycle, GTM rhythm, and market response. Led 20+ products to launch and drove 30% YoY shipment growth.</li>
+              <li>Explored new-form AI hardware through ThinkCentre X Tower / Sensor Hub, positioning Sensor Hub as a multimodal sensing and natural-interaction entry point.</li>
+            </ul>
+          </div>
+          <div class="job">
+            <span class="job-title">Senior AI Product Manager</span>
+            <span class="job-date">Jul 2017 — Jun 2021</span>
+            <div class="job-org">Yitu Technology, Beijing</div>
+            <ul>
+              <li>Product Owner for a video-image data platform from 0 to 1, turning project-based AI capability into a standardized platform and one of the company's three main product lines.</li>
+              <li>Ran product operations and phase-two upgrade planning for the Ministry of Public Security face platform — coordinating algorithm, performance, permission, UX, and delivery requirements.</li>
+            </ul>
+          </div>
+          <div class="job">
+            <span class="job-title">Overseas Project Manager</span>
+            <span class="job-date">Dec 2014 — Sep 2016</span>
+            <div class="job-org">Tencent IEG / Lightspeed Studio, Shenzhen</div>
+            <ul>
+              <li>Managed the Korea launch of WeFire — localization, version planning, R&amp;D evaluation, launch delivery, and operation analysis. Reached #5 grossing on Google Play Korea.</li>
+            </ul>
+          </div>
+          <div class="job">
+            <span class="job-title">Commercialization &amp; Industry Customers</span>
+            <span class="job-date">Feb 2011 — Dec 2014</span>
+            <div class="job-org">Samsung Security Systems; Baidu LBS KA</div>
+            <ul>
+              <li>Built early foundations in government, real estate, banking, security integration, O2O key accounts, and nationwide campaign execution.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+</body>
+</html>
