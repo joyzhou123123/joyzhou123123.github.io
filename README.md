@@ -1,50 +1,23 @@
-# Wei Zhou — Personal Portfolio
+# Joy Zhou · Portfolio
 
-[![Portfolio preview](assets/portfolio-preview.png)](https://joyzhou123123.github.io/)
+Hardware products, software products, and AI solutions, from product definition to launch.
 
-**Live site:** [joyzhou123123.github.io](https://joyzhou123123.github.io/)
+**Website:** https://joyzhou123123.github.io/
 
-Personal portfolio for AI-native devices, multimodal interaction, and global product leadership.  
-The site brings together my CV, professional experience, and a product case around ThinkCentre X Tower / Sensor Hub.
+- [English](https://joyzhou123123.github.io/?lang=en)
+- [中文](https://joyzhou123123.github.io/?lang=zh)
+- [한국어](https://joyzhou123123.github.io/?lang=ko)
 
-## What This Portfolio Covers
+## Pages
 
-- **CV** — concise one-page profile for senior-facing conversations.
-- **Resume** — personal experience, career storyline, selected impact, and role positioning.
-- **Product Case** — ThinkCentre X Tower / Sensor Hub as a 0-to-1 AI hardware product definition case.
+- `index.html`: selected work, career highlights, and about Joy
+- `current-work.html`: project responsibilities and approach
+- `product-case.html`: ThinkCentre X Tower and Sensor Hub
+- `ai-turbo-engine.html`: AI Turbo Engine product experience and onboarding
+- `cv.html`: professional experience
 
-## Positioning
+The static website is published by GitHub Pages from the root of `main`. No build step or external font service is required. Local preview: `python3 -m http.server 4316`, then open `http://localhost:4316/`.
 
-I focus on turning emerging AI capabilities into product directions that teams can build, customers can understand, and global markets can adopt.
+The portfolio supports EN/CN/KR, reduced motion, and a static fallback when WebGL is unavailable. The AI Turbo Engine interface preview preserves the original English design; its surrounding portfolio content is localized.
 
-Current direction:
-
-- AI-native devices
-- Multimodal interaction hardware
-- Sensor Hub / ambient sensing
-- Local AI workflows
-- Global product storytelling
-
-## Featured Case
-
-**ThinkCentre X Tower / Sensor Hub**
-
-A product case on reframing a high-performance desktop into an enterprise local AI workflow entry point, connecting hardware platform design, sensing interaction, local intelligence, enterprise deployment, and GTM narrative.
-
-## Site Structure
-
-```text
-index.html          Homepage
-cv.html             CV / one-page profile
-product-case.html   ThinkCentre X Tower / Sensor Hub case
-assets/             Styles, scripts, images, and case materials
-```
-
-## Built With
-
-- Plain HTML
-- CSS
-- JavaScript
-- GitHub Pages
-
-No build step is required.
+Font license files are included in `assets/fonts/`.

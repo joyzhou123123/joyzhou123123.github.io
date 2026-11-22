@@ -108,7 +108,9 @@
     gl.shaderSource(s, src);
     gl.compileShader(s);
     if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
-      console.error("HoloFluid shader:", gl.getShaderInfoLog(s));
+      console.warn("HoloFluid shader:", gl.getShaderInfoLog(s));
+      gl.deleteShader(s);
+      return null;
     }
     return s;
   }
@@ -126,22 +128,26 @@
       this.canvas = canvas;
       this.opts = opts;
       this.scale = opts.scale || 0.6;
-      const gl = canvas.getContext("webgl", {
+      let gl;
+      try { gl = canvas.getContext("webgl", {
         antialias: false,
         premultipliedAlpha: false,
         preserveDrawingBuffer: true,
-        powerPreference: "high-performance",
-      });
+        powerPreference: "low-power",
+      }); } catch { this.dead = true; return; }
       if (!gl) { this.dead = true; return; }
       this.gl = gl;
-      (window.__holos || (window.__holos = [])).push(this);
-
       const prog = gl.createProgram();
-      gl.attachShader(prog, compile(gl, gl.VERTEX_SHADER, VERT));
-      gl.attachShader(prog, compile(gl, gl.FRAGMENT_SHADER, FRAG));
+      const vertex = compile(gl, gl.VERTEX_SHADER, VERT);
+      const fragment = compile(gl, gl.FRAGMENT_SHADER, FRAG);
+      if (!vertex || !fragment) { this.dead = true; return; }
+      gl.attachShader(prog, vertex);
+      gl.attachShader(prog, fragment);
       gl.linkProgram(prog);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { this.dead = true; return; }
       gl.useProgram(prog);
       this.prog = prog;
+      (window.__holos || (window.__holos = [])).push(this);
 
       const buf = gl.createBuffer();
       gl.bindBuffer(gl.ARRAY_BUFFER, buf);
@@ -180,6 +186,9 @@
       this.t0 = performance.now();
       this.visible = true;
       this._frame = 0;
+      this._raf = 0;
+      this._lastRender = 0;
+      this.paused = false;
       this.timeOffset = opts.timeOffset || 0;
 
       this.resize();
@@ -196,7 +205,7 @@
       }
 
       this._loop = this._loop.bind(this);
-      requestAnimationFrame(this._loop);
+      this._raf = requestAnimationFrame(this._loop);
     }
 
     resize() {
@@ -210,6 +219,20 @@
 
     surge(v) { this._surgeT = v; }
     set(name, v) { if (this.u[name]) this.gl.uniform1f(this.u[name], v); }
+    setPaused(value) {
+      value = Boolean(value);
+      if (this.dead || value === this.paused) return;
+      this.paused = value;
+      if (value) {
+        this._pausedAt = performance.now();
+        if (this._raf) cancelAnimationFrame(this._raf);
+        this._raf = 0;
+      } else {
+        this.t0 += performance.now() - this._pausedAt;
+        this._lastRender = 0;
+        this._raf = requestAnimationFrame(this._loop);
+      }
+    }
 
     // draw a single frame at the current (or forced) time — used by the rAF
     // loop and by capture tooling when the tab is hidden (rAF paused).
@@ -226,15 +249,19 @@
       gl.drawArrays(gl.TRIANGLES, 0, 3);
     }
 
-    _loop() {
-      requestAnimationFrame(this._loop);
-      if (this.dead) return;
+    _loop(now) {
+      this._raf = 0;
+      if (this.dead || this.paused) return;
+      this._raf = requestAnimationFrame(this._loop);
+      if (document.hidden) return;
       // throttled visibility via rect (IntersectionObserver is unreliable in some iframes)
       if ((this._frame++ % 12) === 0) {
         const r = this.canvas.getBoundingClientRect();
         this.visible = r.bottom > 0 && r.top < window.innerHeight && r.width > 0;
       }
       if (!this.visible) return;
+      if (now - this._lastRender < 1000 / 30) return;
+      this._lastRender = now;
       this.step();
     }
   }

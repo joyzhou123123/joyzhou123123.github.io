@@ -1,0 +1,313 @@
+/* Shared final theme: the original inner-page palette and fluid field.
+   Layout lives in the existing page styles; brand/type/motion use one source here. */
+:root,html[lang=zh-CN],html[lang=ko]{
+  --font-display:"Archivo","PingFang SC","Microsoft YaHei","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --font-mono:"Space Mono",ui-monospace,monospace;
+  --brand-bg:#f1ecf7;--brand-ink:#1a1d2b;--brand-body:#565d72;
+  --brand-accent:#7b6cf0;--brand-emphasis:#6553c5;--brand-action:#6553c5;--brand-hover:#5142a8;
+  --brand-line:rgba(60,50,90,.14);--brand-glass:rgba(255,255,255,.56);--brand-panel:rgba(241,236,247,.62);
+  --bg:var(--brand-bg);--paper:var(--brand-bg);--lavender:var(--brand-bg);
+  --ink:var(--brand-ink);--deep:var(--brand-ink);--ink-soft:var(--brand-body);--body-ink:var(--brand-body);
+  --ink-faint:#6b7187;--accent:var(--brand-accent);--accent-2:var(--brand-accent);--purple:var(--brand-accent);
+  --line:var(--brand-line);--rule:var(--brand-line);--soft-panel:var(--brand-panel);
+  --glass:var(--brand-glass);--glass-strong:rgba(255,255,255,.74);--glass-border:rgba(255,255,255,.9);
+  --glass-shadow:0 26px 64px -32px rgba(90,70,150,.34);
+  --studio-ink:var(--brand-ink);--studio-muted:var(--brand-body);--studio-accent:var(--brand-emphasis);
+}
+body.portfolio.ambient-home,body.portfolio.ambient-subpage{
+  isolation:isolate;background:var(--brand-bg);color:var(--brand-ink);
+  font-family:var(--font-display);font-weight:400;
+  --bg:var(--brand-bg);--ink:var(--brand-ink);--ink-soft:var(--brand-body);--accent:var(--brand-accent);
+}
+html[lang=ko]{--font-display:"Archivo","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",system-ui,sans-serif}
+.portfolio-field{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 15% 30%,#d8d2ee,transparent 65%),var(--brand-bg)}
+.portfolio-fluid,.portfolio-veil{position:absolute;inset:0;width:100%;height:100%}
+.portfolio-fluid{display:block;opacity:0;transition:opacity .7s}
+.portfolio-fluid.is-ready{opacity:1}
+.portfolio-veil{background:linear-gradient(180deg,rgba(248,245,252,.34),rgba(244,240,250,.5));backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+body.portfolio :is(h1,h2,h3,h4,p,li,a,button,summary,figcaption,b,strong,small,.role-label,.sec-label,.eyebrow,.project-meta,.project-name,.kicker){font-family:var(--font-display)}
+body.portfolio.ambient-home :is(h1,h2,h3,h4),body.portfolio.ambient-subpage :is(h1,h2,h3,h4){
+  font-weight:600;letter-spacing:-.04em;color:var(--brand-ink);line-height:1.12;
+}
+body.portfolio.ambient-home :is(p,li),body.portfolio.ambient-subpage :is(p,li){color:var(--brand-body)}
+body.portfolio :is(b,strong){color:var(--brand-ink);font-weight:600}
+body.portfolio .work-hero h1 em{font-style:normal;font-weight:inherit}
+body.portfolio :is(.role-label,.sec-label,.eyebrow,.project-name,.hero-intro){font-weight:500;letter-spacing:.02em;color:var(--brand-body)}
+body.portfolio .role,body.portfolio .job-title,body.portfolio .signal h3{font-weight:600}
+body.portfolio .hero-meta span b,body.portfolio .ci .lab,body.portfolio .job-date{font-family:var(--font-display);font-weight:500;letter-spacing:.025em}
+body.portfolio .nav{background:rgba(248,245,252,.74);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+body.portfolio .nav :is(.brand,a){color:var(--brand-ink)}
+body.portfolio .nav .brand{font-weight:600}
+body.portfolio .language-switch button[aria-pressed=true],body.portfolio .pill-link{background:var(--brand-action);color:#fff}
+body.portfolio .pill-link:hover{background:var(--brand-hover)}
+body.portfolio .language-switch{background:rgba(255,255,255,.4);border-color:var(--brand-line)}
+body.portfolio :is(.hero-content h1,.projects-heading h2,.chapter-title,.statement-title,.about-statement h2,.contact-section h2)>span,
+body.portfolio .work-hero h1 em{color:var(--brand-emphasis)}
+body.portfolio :is(.text-link,.case-current a){color:var(--brand-emphasis);font-weight:500;border-color:var(--brand-line)}
+body.portfolio :is(.text-link,.case-current a):hover{color:var(--brand-hover)}
+body.portfolio :is(.project-visual,.architecture-chapter,.decision-scene,.detail-visual,.detail-body,.turbo-ecosystem,.turbo-feature,.work-filmstrip,.film-sensor,.case-current,.cv-body){
+  background:var(--brand-glass);border-color:rgba(255,255,255,.86);
+}
+body.portfolio .turbo-scene{background:radial-gradient(ellipse at 50% 30%,rgba(255,255,255,.72),transparent 75%),var(--brand-glass)}
+#turbo .turbo-scene{min-height:0;display:flex;align-items:center;padding:44px 28px}
+#turbo .device-composition{width:100%;height:clamp(270px,30vw,410px)}
+#turbo .yoga-device{top:0}
+body.portfolio .hardware-scene{background:linear-gradient(145deg,rgba(235,229,246,.68),rgba(255,255,255,.56))}
+body.portfolio .system-flow li:not(:last-child)::after{color:var(--brand-emphasis)}
+body.portfolio :is(.scope-note,.system-flow li,.project-index,.about-responsibilities details,.contact-email,.ambient-footer){border-color:var(--brand-line)}
+body.portfolio .work-detail .scope-note{border-left-color:var(--brand-accent)}
+body.portfolio .detail-sensor>span,body.portfolio .detail-architecture>p{font-weight:600;color:var(--brand-ink)}
+body.portfolio .detail-architecture>p em{font-style:normal;color:var(--brand-emphasis)}
+body.portfolio .turbo-case p{color:var(--brand-body)}
+body.portfolio .work-tags span{color:var(--brand-body);border-color:var(--brand-line);background:rgba(255,255,255,.36)}
+body.portfolio .work-tabs a{color:var(--brand-ink);border-color:var(--brand-line);font-family:var(--font-display)}
+body.portfolio .work-tabs a:hover{background:var(--brand-glass)}
+body.portfolio .nav a:focus-visible,body.portfolio button:focus-visible,body.portfolio summary:focus-visible{outline-color:var(--brand-emphasis)}
+body.portfolio .water-hero{background:none}
+body.portfolio .project-index{gap:12px 26px}
+body.portfolio .project-index a{line-height:1.6}
+body.portfolio .cv-body{background:var(--brand-glass)}
+body.portfolio .studio-dialog{background:var(--brand-bg);color:var(--brand-ink)}
+.site-motion-control{position:fixed;bottom:20px;right:24px;z-index:11;min-height:42px;padding:10px 16px;border:1px solid var(--brand-line);border-radius:999px;background:rgba(248,245,252,.92);color:var(--brand-body);font:500 11px var(--font-display);cursor:pointer;box-shadow:0 6px 18px -12px rgba(90,70,150,.35)}
+.site-motion-control[hidden]{display:none}
+.surf-scene{height:400px;width:100%;position:relative;isolation:isolate;border-radius:20px;overflow:hidden;background:#e5e0f1}
+body.portfolio .off-clock .surf-layer{position:absolute;inset:-6%;width:112%;height:112%;max-height:none;max-width:none;object-fit:cover;object-position:center 50%;border-radius:0;filter:saturate(.78) brightness(1.04) contrast(.96);will-change:transform}
+.surf-wave{z-index:0;transform-origin:50% 50%;animation:portfolio-surf-wave 9s ease-in-out infinite}
+.surf-board{z-index:1;transform-origin:40% 82%;mask-image:radial-gradient(42% 30% at 40% 80%,#000 52%,transparent 100%);-webkit-mask-image:radial-gradient(42% 30% at 40% 80%,#000 52%,transparent 100%);animation:portfolio-surf-board 5s ease-in-out infinite}
+.surf-person{z-index:2;transform-origin:52% 70%;mask-image:radial-gradient(44% 42% at 57% 45%,#000 60%,transparent 100%);-webkit-mask-image:radial-gradient(44% 42% at 57% 45%,#000 60%,transparent 100%);animation:portfolio-surf-person 6s ease-in-out infinite}
+.surf-fluid{position:absolute;inset:0;width:100%;height:100%;z-index:3;mix-blend-mode:soft-light;opacity:0;pointer-events:none;transition:opacity .7s}
+.surf-fluid.is-ready{opacity:.55}
+.surf-grade{position:absolute;inset:0;z-index:4;pointer-events:none;mix-blend-mode:color;background:#7b6cf0;opacity:.18}
+html.motion-paused .surf-layer,html.motion-hidden .surf-layer,.surf-scene.is-offscreen .surf-layer{animation-play-state:paused}
+@keyframes portfolio-surf-wave{0%,100%{transform:translate3d(0,0,0) scale(1) rotate(0)}50%{transform:translate3d(-1%,1.3%,0) scale(1.032) rotate(-1deg)}}
+@keyframes portfolio-surf-board{0%,100%{transform:rotate(0) translate3d(0,0,0)}30%{transform:rotate(3.4deg) translate3d(1.4%,-1.7%,0)}65%{transform:rotate(-2deg) translate3d(-.9%,1%,0)}}
+@keyframes portfolio-surf-person{0%,100%{transform:translate3d(0,0,0) rotate(0)}35%{transform:translate3d(.6%,-2.6%,0) rotate(1.4deg)}70%{transform:translate3d(-.5%,1.2%,0) rotate(-1.1deg)}}
+@media(max-width:760px){
+  body.portfolio .project-index{grid-template-columns:1fr 1fr;gap:10px 18px}
+  body.portfolio .project-index a{font-size:11px;align-items:flex-start}
+  body.portfolio .project-index a span{flex-shrink:0}
+  body.portfolio .system-flow li:not(:last-child)::after{background:var(--brand-bg)}
+  .surf-scene{height:360px}
+  #turbo .turbo-scene{padding:28px 18px}
+  .site-motion-control{bottom:12px;right:16px;font-size:10px;min-height:40px}
+  body.portfolio .ambient-footer,body.portfolio .foot{padding-bottom:76px}
+}
+@media(prefers-reduced-motion:reduce){.surf-layer{animation:none!important;will-change:auto!important}.portfolio-fluid,.surf-fluid{transition:none}.site-motion-control{display:none}}
+@media(prefers-reduced-transparency:reduce){.portfolio-veil{background:rgba(241,236,247,.88);backdrop-filter:none}.portfolio .nav{background:var(--brand-bg);backdrop-filter:none}}
+@media print{.portfolio-field,.site-motion-control,.surf-fluid,.surf-grade{display:none}.surf-board,.surf-person{display:none}.surf-wave{animation:none!important;transform:none!important}body.portfolio{background:#fff!important}.portfolio .cv-body{background:#fff!important}}
+
+/* Personal portfolio: a shared type hierarchy, meaningful imagery and career evidence. */
+:root{--font-heading:"Archivo","PingFang SC","Microsoft YaHei",system-ui,sans-serif}
+html[lang=ko]{--font-heading:"Archivo","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif}
+body.portfolio.ambient-home :is(h1,h2,h3,h4),body.portfolio.ambient-subpage :is(h1,h2,h3,h4){font-family:var(--font-heading);font-weight:700;letter-spacing:-.045em;line-height:1.12;text-wrap:balance}
+html[lang=zh-CN] body.portfolio :is(h1,h2,h3,h4),html[lang=ko] body.portfolio :is(h1,h2,h3,h4){letter-spacing:-.025em;line-height:1.25}
+body.portfolio .nav .brand,body.portfolio .ambient-footer .brand{font-family:var(--font-heading);font-weight:500;letter-spacing:-.055em}
+body.portfolio .nav-inner{min-height:76px}
+body.portfolio .nav-links{gap:24px}
+body.portfolio .personal-hero{width:min(100%,1440px);margin:auto;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(40px,7vw,110px);align-items:center;min-height:0;padding:72px var(--gutter) 110px;overflow:visible}
+body.portfolio .personal-intro{margin:0;text-align:left;min-width:0}
+body.portfolio .personal-intro .hero-intro{font-size:14px;line-height:1.7;margin:0 0 24px!important}
+html body.portfolio .personal-intro h1{font-size:clamp(64px,7.8vw,112px);line-height:1.05;letter-spacing:-.065em;margin:0}
+body.portfolio .personal-intro .hero-description{font-size:18px;line-height:1.8;max-width:32em;margin:28px 0 34px!important}
+.hero-actions{display:flex;align-items:center;gap:32px;flex-wrap:wrap}
+body.portfolio .hero-actions .pill-link{margin:0;padding:18px 26px;font-size:14px}
+body.portfolio .hero-actions .text-link{margin:0}
+body.portfolio .hero-portrait{width:100%;max-width:440px;justify-self:end;margin:0!important}
+body.portfolio .hero-portrait .surf-scene{height:clamp(340px,37vw,490px);border-radius:24px 24px 100px 24px}
+body.portfolio .hero-portrait figcaption{font-size:13px;line-height:1.6;margin-top:18px}
+body.portfolio .projects-section{padding-top:40px}
+body.portfolio .chapter-title>span{margin-left:0}
+body.portfolio .chapter-turbo .chapter-title>span{margin-top:12px}
+body.portfolio .chapter-description{line-height:1.8}
+
+body.portfolio .hardware-pair-stage{height:auto;min-height:460px;display:flex;align-items:center;padding:36px 20px;border-radius:20px}
+.hardware-pair{display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);gap:12px;align-items:end;width:100%;padding:24px 0}
+.product-object{display:flex;flex-direction:column;align-items:center;min-width:0;gap:22px}
+body.portfolio .hardware-pair img{display:block;position:static;max-width:100%;width:100%;height:auto;transform:none;object-fit:contain;mix-blend-mode:normal;filter:none}
+.hardware-pair .object-sensor{padding-inline:12%}
+.hardware-pair .product-object>span{font:500 12px/1.6 var(--font-display);color:var(--brand-body);text-align:center;min-height:38px}
+body.portfolio .case-hardware-pair{padding:36px 24px 0;margin:0;align-self:center;background:var(--brand-glass)}
+body.portfolio .case-hardware-pair figcaption{position:static;margin:12px -24px 0;padding:20px 24px;border-radius:0;border:0;border-top:1px solid var(--brand-line);background:transparent;box-shadow:none;backdrop-filter:none;font-weight:400;font-size:13px;line-height:1.7}
+.case-hero-copy{min-width:0;container-type:inline-size}
+body.portfolio .case-hero h1{font-size:clamp(30px,9cqw,45px);line-height:1.2;letter-spacing:-.04em}
+.title-phrase{display:block;text-wrap:balance}
+body.portfolio .case-hero h1 .title-phrase+.title-phrase{color:var(--brand-emphasis);margin-top:.24em}
+html[lang=zh-CN] body.portfolio .case-hero h1,html[lang=ko] body.portfolio .case-hero h1{font-size:clamp(25px,9.5cqw,44px);line-height:1.35;letter-spacing:-.025em}
+body.portfolio .product-gallery{align-items:stretch}
+body.portfolio .product-gallery figure{display:flex;flex-direction:column;min-width:0}
+body.portfolio .product-gallery img{flex:none;object-fit:contain}
+body.portfolio .product-gallery figcaption{flex:1;margin:0;line-height:1.65}
+
+.career-section{padding-top:30px;scroll-margin-top:110px}
+.career-heading{max-width:760px;margin-bottom:54px}
+body.portfolio .career-heading h2{font-size:clamp(38px,4.6vw,66px);margin:0 0 24px}
+body.portfolio .career-heading p{font-size:17px;line-height:1.8;max-width:39em;margin:0}
+.career-ledger{border-top:1px solid var(--brand-line)}
+.career-entry{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.6fr) minmax(280px,.9fr);gap:36px;padding:40px 0;border-bottom:1px solid var(--brand-line);align-items:start}
+.career-entry>div{min-width:0}
+.career-date{font:12px/1.6 var(--font-mono);color:var(--brand-body)}
+body.portfolio .career-identity h3{font-size:26px;margin:12px 0 0;letter-spacing:-.04em}
+body.portfolio .career-story h4{font-size:18px;letter-spacing:-.02em;line-height:1.5;margin:0 0 14px}
+body.portfolio .career-story p{font-size:15px;line-height:1.9;margin:0}
+.career-evidence{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:start;text-align:left}
+.career-evidence>div{display:grid;grid-template-rows:auto auto;align-content:start;gap:14px;min-width:0}
+.career-evidence>div:only-child{grid-column:1/-1}
+body.portfolio .career-evidence strong{display:block;font:600 40px/1.1 var(--font-heading);font-variant-numeric:lining-nums tabular-nums;letter-spacing:-.04em;white-space:nowrap;color:var(--brand-emphasis)}
+.career-evidence span{display:block;font-size:12px;line-height:1.7;text-wrap:pretty;word-break:normal;color:var(--brand-body)}
+.career-section>.text-link{margin-top:32px}
+body.portfolio .about-section{padding-top:130px}
+body.portfolio .about-statement{text-align:left;max-width:none}
+body.portfolio .about-statement h2{font-size:clamp(38px,4.6vw,66px)}
+body.portfolio .about-statement p{margin:26px 0 0;max-width:660px;font-size:17px}
+body.portfolio .personal-capabilities{grid-template-columns:repeat(2,minmax(0,1fr));max-width:none;gap:64px;align-items:start;margin:54px 0 0}
+.capability-column{border-top:1px solid var(--brand-line);padding-top:26px}
+body.portfolio .capability-column h3{font-size:26px;margin:0 0 22px;letter-spacing:-.03em}
+body.portfolio .capability-column p{font-size:16px;line-height:1.9;margin:0;max-width:38em}
+body.portfolio .about-section>.about-links{margin-top:36px}
+@media(max-width:1050px){
+  body.portfolio .nav-links{gap:16px}
+  body.portfolio .personal-hero{gap:36px;padding-top:52px;padding-bottom:80px}
+  body.portfolio .architecture-project{padding:36px 28px;gap:28px}
+  .map-canvas{height:360px}.map-core{width:120px;height:120px}.map-core>span{font-size:24px}.map-node{max-width:165px;font-size:12px;padding:10px}
+  body.portfolio .architecture-detail{gap:36px}
+  .career-entry{grid-template-columns:minmax(0,.75fr) minmax(0,1.4fr);gap:24px 36px}
+  .career-evidence{grid-column:2;width:100%;max-width:360px;gap:24px}
+}
+@media(max-width:760px){
+  body.portfolio .nav-links{gap:8px}
+  body.portfolio .nav-links a{font-size:11px}
+  body.portfolio .personal-hero{grid-template-columns:1fr;padding:48px var(--gutter) 64px;gap:44px}
+  html body.portfolio .personal-intro h1{font-size:clamp(60px,14vw,88px)}
+  body.portfolio .personal-intro .hero-intro{font-size:12px;margin-bottom:18px!important}
+  body.portfolio .personal-intro .hero-description{font-size:16px;margin:24px 0 28px!important}
+  body.portfolio .hero-portrait{max-width:100%;width:100%}
+  body.portfolio .hero-portrait .surf-scene{height:clamp(320px,95vw,470px);border-radius:20px 20px 76px 20px}
+  body.portfolio .projects-section{padding-top:24px}
+  body.portfolio .chapter-title,body.portfolio .chapter-hardware .chapter-title{font-size:clamp(38px,9vw,58px)}
+  body.portfolio .hardware-pair-stage{min-height:0;padding:28px 12px}
+  .hardware-pair{gap:6px;padding:24px 0}.product-object{gap:16px}.hardware-pair .product-object>span{font-size:11px}
+  body.portfolio .case-hardware-pair{padding:20px 16px 0}
+  body.portfolio .case-hardware-pair figcaption{margin-inline:-16px;padding:16px}
+  body.portfolio .architecture-project,body.portfolio .architecture-detail{grid-template-columns:1fr;padding:32px 20px;gap:24px}
+  body.portfolio .architecture-intro .statement-title{font-size:clamp(32px,8vw,44px)}
+  .map-canvas{height:350px}.map-core{width:116px;height:116px}.map-node{max-width:155px;font-size:12px}.map-insights{min-height:145px}
+  .career-section{padding-top:20px;scroll-margin-top:135px}
+  .career-heading{margin-bottom:36px}
+  .career-entry{grid-template-columns:1fr;gap:22px;padding:30px 0}
+  .career-evidence{grid-column:1;gap:24px}
+  body.portfolio .career-evidence strong{font-size:36px}
+  body.portfolio .career-story p{font-size:16px}
+  body.portfolio .about-section{padding-top:80px}
+  body.portfolio .personal-capabilities{grid-template-columns:1fr;gap:36px;margin-top:36px}
+}
+@media(prefers-reduced-motion:reduce){.map-node,.map-path{transition:none}}
+
+/* Return to the original Archivo family; open, Ambi-inspired chapter pacing.
+   The purple title gradient is explicitly requested by Joy. */
+:root{--brand-title-gradient:linear-gradient(180deg,#332551 0%,#6553c5 58%,#9579c8 100%);--font-heading:var(--font-display)}
+html[lang=ko]{--font-heading:var(--font-display)}
+body.portfolio.ambient-home :is(h1,h2,h3,h4),body.portfolio.ambient-subpage :is(h1,h2,h3,h4){font-family:var(--font-display);font-weight:700;letter-spacing:-.04em;line-height:1.13}
+html[lang=zh-CN] body.portfolio :is(h1,h2,h3,h4),html[lang=ko] body.portfolio :is(h1,h2,h3,h4){font-weight:600;letter-spacing:-.025em;line-height:1.28;word-break:normal}
+body.portfolio .nav .brand,body.portfolio .ambient-footer .brand{font-family:var(--font-display);font-weight:700;letter-spacing:-.045em}
+body.portfolio .portfolio-veil{background:linear-gradient(180deg,rgba(248,245,252,.46),rgba(244,240,250,.65))}
+body.portfolio .editorial-hero{max-width:1440px;margin:auto;min-height:min(820px,calc(100dvh - 76px));padding:86px var(--gutter) 100px;display:block;text-align:center}
+body.portfolio .editorial-intro{max-width:1200px;margin:0 auto;text-align:center}
+body.portfolio .editorial-intro .hero-intro{font-size:13px;line-height:1.8;margin-bottom:34px!important}
+html body.portfolio .editorial-intro h1{font-size:clamp(56px,7.8vw,108px);font-weight:700;line-height:1.08;letter-spacing:-.055em}
+html[lang=zh-CN] body.portfolio .editorial-intro h1,html[lang=ko] body.portfolio .editorial-intro h1{font-size:clamp(44px,6.6vw,88px);font-weight:600;line-height:1.25;letter-spacing:-.035em}
+body.portfolio .editorial-intro .hero-description{max-width:680px;margin:34px auto 30px!important;font-size:18px;line-height:1.8}
+.editorial-hero .hero-actions{justify-content:center}
+body.portfolio .projects-section{padding-top:80px}
+body.portfolio .projects-heading{max-width:850px;margin-bottom:40px}
+body.portfolio .projects-heading h2{font-size:clamp(42px,5.2vw,72px)}
+body.portfolio .projects-heading>p{max-width:620px;font-size:17px;line-height:1.8;margin:24px 0 0}
+body.portfolio .project-index{margin-bottom:84px;padding-block:22px;border-top:0;border-bottom:1px solid var(--brand-line)}
+body.portfolio .project-index a{font-size:12px}
+body.portfolio .project-feature{display:block;margin-bottom:136px}
+body.portfolio .feature-heading{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:20px 72px;align-items:start}
+body.portfolio .feature-heading>.project-name{grid-column:1/-1;margin:0 0 14px;font-size:14px;letter-spacing:0}
+body.portfolio .feature-heading>.chapter-title{font-size:clamp(44px,5.2vw,74px);max-width:760px;line-height:1.12}
+body.portfolio .feature-heading>.chapter-title>span{display:block;margin:8px 0 0}
+body.portfolio .feature-summary{min-width:0;padding-top:8px}
+body.portfolio .feature-summary .chapter-description{font-size:17px;line-height:1.85;margin:0}
+body.portfolio .feature-summary .project-meta{font-size:12px;line-height:1.7;margin-top:24px}
+body.portfolio .feature-summary .text-link{margin-top:22px;font-size:14px}
+.prototype-preview{width:100%;min-width:0;margin:42px 0 0}
+.prototype-stage{position:relative;width:100%;aspect-ratio:12/7;overflow:hidden;background:#f7f9fc;border-radius:10px;box-shadow:0 32px 65px -48px rgba(52,40,96,.3)}
+.prototype-stage iframe{position:absolute;inset:0;display:block;width:100%;height:100%;border:0;transform-origin:0 0;pointer-events:none}
+body.portfolio .prototype-preview figcaption{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;margin:18px 0 0;padding:0;background:none;border:0;box-shadow:none;font-size:12px;line-height:1.6;color:var(--brand-body)}
+.prototype-preview figcaption>span{display:flex;flex-direction:column;gap:4px}
+body.portfolio .prototype-preview figcaption small{font-size:11px;color:var(--brand-body)}
+body.portfolio .prototype-preview figcaption .text-link{margin:0;padding-bottom:8px;font-size:13px}
+body.portfolio .hardware-editorial{background:none;border:0;box-shadow:none;border-radius:0;min-height:0;margin-top:40px;padding:24px 4% 0}
+.hardware-editorial .hardware-pair{max-width:1000px;grid-template-columns:minmax(0,2.2fr) minmax(0,1fr);gap:7%;margin:auto;padding:0}
+.hardware-editorial .product-object{gap:20px}
+.hardware-editorial .product-object>span{font-size:14px}
+body.portfolio .architecture-statement{display:block;background:transparent;border:0;border-radius:0;box-shadow:none;padding:40px 0 70px;margin:0 auto 100px;max-width:1080px;text-align:center}
+body.portfolio .architecture-statement .architecture-intro{max-width:none}
+body.portfolio .architecture-statement .project-name{font-size:14px;margin:0 0 32px}
+body.portfolio .architecture-statement .statement-title{font-size:clamp(42px,5.6vw,80px);line-height:1.12;margin:0}
+body.portfolio .architecture-statement .statement-title span{padding-left:0;display:block;margin-top:8px}
+body.portfolio .architecture-statement .chapter-description{font-size:19px;line-height:1.85;max-width:740px;margin:34px auto 0}
+body.portfolio .architecture-statement .architecture-foot{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:22px}
+body.portfolio .architecture-statement .project-meta{font-size:12px;line-height:1.7;margin:0!important}
+body.portfolio .architecture-statement .text-link{font-size:14px;margin-top:20px!important}
+body.portfolio .practice-chapter{gap:64px;margin-bottom:130px;align-items:center;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr)}
+body.portfolio .decision-scene{background:none;padding:0;min-height:0;height:auto;box-shadow:none;border:0;overflow:visible}
+body.portfolio .decision-scene img{display:block;position:static;width:100%;height:auto;max-width:100%;transform:none;object-fit:contain;filter:none;border-radius:8px}
+body.portfolio .career-section{padding-top:40px}
+body.portfolio .about-section{padding-top:110px}
+body.portfolio .personal-note{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);align-items:center;gap:100px;margin-top:110px}
+body.portfolio .personal-note-copy .project-name{font-size:13px;margin:0 0 24px}
+body.portfolio .personal-note h2{font-size:clamp(34px,4.3vw,60px);max-width:9em;line-height:1.2}
+body.portfolio .personal-portrait{margin:0!important;width:100%;max-width:420px;justify-self:end}
+body.portfolio .personal-portrait .surf-scene{height:470px;border-radius:0;mask-image:radial-gradient(ellipse 74% 72% at 50% 48%,#000 52%,transparent 83%);-webkit-mask-image:radial-gradient(ellipse 74% 72% at 50% 48%,#000 52%,transparent 83%)}
+body.portfolio .work-detail>.prototype-preview{grid-column:1/-1;margin:0 0 16px}
+body.portfolio .work-editorial .ai-case-detail{border-top:1px solid var(--brand-line);margin-top:70px;padding-top:72px}
+body.portfolio .turbo-case>.prototype-preview{margin-bottom:54px}
+body.portfolio .turbo-case .work-hero{max-width:1100px}
+body.portfolio .turbo-case .work-hero h1{font-size:clamp(44px,6vw,80px)}
+body.portfolio .turbo-case>.prototype-preview+.turbo-ecosystem{display:none}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  body.portfolio :is(.editorial-intro h1,.projects-heading h2,.chapter-title,.statement-title,.career-heading h2,.about-statement h2,.personal-note h2,.contact-section h2,.work-hero h1,.case-hero h1){background-image:var(--brand-title-gradient);background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent;padding-bottom:.06em}
+  body.portfolio :is(.editorial-intro h1,.projects-heading h2,.chapter-title,.statement-title,.about-statement h2,.contact-section h2,.work-hero h1,.case-hero h1)>:is(span,em){color:inherit;-webkit-text-fill-color:inherit;background:none}
+}
+@media(max-width:1050px){
+  body.portfolio .feature-heading{gap:20px 38px}
+  body.portfolio .personal-note{gap:44px}
+  body.portfolio .personal-portrait .surf-scene{height:400px}
+}
+@media(max-width:760px){
+  body.portfolio .editorial-hero{min-height:0;padding:64px var(--gutter) 80px}
+  html body.portfolio .editorial-intro h1{font-size:clamp(40px,8.7vw,62px);line-height:1.15}
+  html[lang=zh-CN] body.portfolio .editorial-intro h1,html[lang=ko] body.portfolio .editorial-intro h1{font-size:clamp(29px,6.8vw,48px);line-height:1.35}
+  body.portfolio .editorial-intro .hero-intro{font-size:12px;margin-bottom:28px!important}
+  body.portfolio .editorial-intro .hero-description{font-size:16px;margin:26px auto 28px!important}
+  body.portfolio .projects-section{padding-top:20px}
+  body.portfolio .project-index{margin-bottom:58px}
+  body.portfolio .project-index a{font-size:11px}
+  body.portfolio .project-feature{margin-bottom:86px}
+  body.portfolio .feature-heading{grid-template-columns:1fr;gap:22px}
+  body.portfolio .feature-heading>.project-name{margin-bottom:0;font-size:12px}
+  body.portfolio .feature-heading>.chapter-title{font-size:clamp(36px,8.9vw,58px)}
+  body.portfolio .feature-summary{padding:0}
+  body.portfolio .feature-summary .chapter-description{font-size:16px}
+  .prototype-preview{margin-top:30px}
+  .prototype-stage{border-radius:5px}
+  body.portfolio .prototype-preview figcaption{flex-wrap:wrap;gap:12px;font-size:11px}
+  body.portfolio .hardware-editorial{padding-inline:0;margin-top:30px}
+  .hardware-editorial .hardware-pair{gap:10px}
+  .hardware-editorial .product-object>span{font-size:11px}
+  body.portfolio .architecture-statement{padding:20px 0 34px;margin-bottom:56px;text-align:left}
+  body.portfolio .architecture-statement .statement-title{font-size:clamp(36px,8.9vw,58px)}
+  body.portfolio .architecture-statement .chapter-description{font-size:16px;margin-top:26px}
+  body.portfolio .architecture-statement .architecture-foot{align-items:flex-start}
+  body.portfolio .practice-chapter{grid-template-columns:1fr;gap:32px;margin-bottom:84px}
+  body.portfolio .personal-note{grid-template-columns:1fr;margin-top:76px;gap:24px}
+  body.portfolio .personal-note h2{font-size:36px;max-width:12em}
+  body.portfolio .personal-portrait{justify-self:center;max-width:380px}
+  body.portfolio .personal-portrait .surf-scene{height:400px}
+  body.portfolio .work-editorial .ai-case-detail{margin-top:36px;padding-top:44px}
+}
+@media(forced-colors:active){body.portfolio :is(h1,h2,h3,h4){background:none!important;color:CanvasText!important;-webkit-text-fill-color:CanvasText!important}}
+@media print{body.portfolio :is(h1,h2,h3,h4){background:none!important;color:#1a1d2b!important;-webkit-text-fill-color:#1a1d2b!important}}

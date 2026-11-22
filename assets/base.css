@@ -1,7 +1,7 @@
 /* base.css — shared editorial layout, type, reveal animations.
    Per-direction pages override the theme variables in their own <style>. */
 
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap');
+@import url('fonts.css');
 
 :root {
   --maxw: 1240px;
